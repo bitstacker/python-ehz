@@ -1,6 +1,6 @@
 import serial
 import binascii
-from PyCRC.CRCCCITT import CRCCCITT
+import crc16
 
 SMLSTART = bytes([0x1B, 0x1B, 0x1B, 0x1B, 0x01, 0x01, 0x01, 0x01])
 SMLSTOP = bytes([0x1B, 0x1B, 0x1B, 0x1B, 0x1A])
@@ -18,6 +18,6 @@ if(ser.read_until(SMLSTART, 800)):
           data = data + ser.read(3)
           reading = False
 ser.close() 
-print(hex(CRCCCITT().calculate(data[0:len(data)-2])))
-print(data[0:len(data)-2].hex())
+print(hex(crc16.crc16xmodem(data[0:len(data)-2])))
+print(data.hex())
 print(data[len(data)-2:].hex())
